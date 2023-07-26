@@ -1,0 +1,18 @@
+{
+  "name": "xinrenxinshi-sign",
+  "version": "1.0.0",
+  "description": "薪人薪事打卡签到 demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "express": "^4.17.1"
+  }
+}
