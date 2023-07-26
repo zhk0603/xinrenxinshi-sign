@@ -133,20 +133,35 @@ async function ajax_sign(shiftInfo, ssotoken) {
     latitude: place.latitudeReal,
     accuracy: 10,
   };
-
+  console.log("coordinate", coordinate);
   coordinate = Object.assign(
     coordinate,
     utils.generateNewCoordinate(
       coordinate.longitude,
       coordinate.latitude,
-      place.distance / 1000
+      0.001
     )
   );
 
   const model = shiftInfo.attendanceShiftInfoModel[0];
   const clockTime = model.clockTimeRangeList[0];
 
-  const isOnWork = new Date().getHours() < 12;
+  const earliestCheckInTime = Date.parse(
+    `${model.date} ${clockTime.onWork.earliestCheckInTime}`
+  );
+  const latestCheckInTime = Date.parse(
+    `${model.date} ${clockTime.onWork.latestCheckInTime}`
+  );
+
+  let isOnWork = false;
+  const nowTimestamp = new Date().getTime();
+  if (
+    nowTimestamp >= earliestCheckInTime &&
+    nowTimestamp <= latestCheckInTime &&
+    !clockTime.onWork.signInTime
+  ) {
+    isOnWork = true;
+  }
   const realTime = isOnWork
     ? clockTime.onWork.realOnWorkTime
     : clockTime.offWork.realOffWorkTime;
